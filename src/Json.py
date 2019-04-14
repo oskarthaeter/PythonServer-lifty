@@ -12,19 +12,19 @@ def load_json(file_name):
 
 # gets the login data for the mysql db from the json config file
 def get_config_db():
-	data = load_json("/Users/oskarhaeter/PycharmProjects/PythonServer/files/json/json_config.json")
+	data = load_json("/PythonServer/files/json/json_config.json")
 	return data["db"]["user"], data["db"]["password"], data["db"]["host"], data["db"]["database"]
 
 
 # gets the api key for the google distance matrix api from the config json file
 def get_config_api_key():
-	data = load_json("/Users/oskarhaeter/PycharmProjects/PythonServer/files/json/json_config.json")
+	data = load_json("/PythonServer/files/json/json_config.json")
 	return data["google"]["API_KEY"]
 
 
 # fills the driver json file and returns a data dict
 def fill_driver_data(user_id, url, passengers):
-	data = load_json("/Users/oskarhaeter/PycharmProjects/PythonServer/files/json/json_form_driver_data.json")
+	data = load_json("/PythonServer/files/json/json_form_driver_data.json")
 	data["user_id"] = user_id
 	data["type"] = "driver"
 	data["url"] = url
@@ -34,7 +34,7 @@ def fill_driver_data(user_id, url, passengers):
 
 # fills the passenger json file and returns a data dict
 def fill_passenger_data(user_id, driver_id):
-	data = load_json("/Users/oskarhaeter/PycharmProjects/PythonServer/files/json/json_form_passenger_data.json")
+	data = load_json("/PythonServer/files/json/json_form_passenger_data.json")
 	data["user_id"] = user_id
 	data["type"] = "passenger"
 	data["user_id_driver"] = driver_id
@@ -43,7 +43,7 @@ def fill_passenger_data(user_id, driver_id):
 
 # fills the data matrix json file, saves it and returns the path of the just created file
 def fill_data_matrix(school_id, day, timestamp, fill_data, dropped_nodes):
-	data = load_json("/Users/oskarhaeter/PycharmProjects/PythonServer/files/json/json_form_data_matrix.json")
+	data = load_json("/PythonServer/files/json/json_form_data_matrix.json")
 	data["type"] = "data_matrix"
 	data["day"] = day
 	data["school"] = school_id
@@ -51,9 +51,9 @@ def fill_data_matrix(school_id, day, timestamp, fill_data, dropped_nodes):
 	data["data"] = fill_data
 	data["dropped_nodes"] = dropped_nodes
 	print(data)
-	with open('/Users/oskarhaeter/PycharmProjects/PythonServer/files/json/data_{}_{}_{}.json'.format(school_id, day, timestamp), 'w', encoding='utf8') as outfile:
+	with open('/PythonServer/files/json/data_{}_{}_{}.json'.format(school_id, day, timestamp), 'w', encoding='utf8') as outfile:
 		json.dump(data, outfile, ensure_ascii=False)
-	return '/Users/oskarhaeter/PycharmProjects/PythonServer/files/json/data_{}_{}_{}.json'.format(school_id, day, timestamp)
+	return '/PythonServer/files/json/data_{}_{}_{}.json'.format(school_id, day, timestamp)
 
 
 # builds the actual matrix which has the following structure:
