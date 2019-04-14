@@ -81,8 +81,5 @@ def main():
 				threads.append(thread)
 				already_run = True
 
-
-# monday after deadline
-
 if __name__ == '__main__':
 	main()
