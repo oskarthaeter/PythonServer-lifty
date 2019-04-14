@@ -1,0 +1,8 @@
+{
+    "type": "data_matrix",
+    "day": "<day>",
+    "school": "<school_id>",
+    "timestamp": "<timestamp>",
+    "data": [],
+    "dropped_nodes": []
+}
