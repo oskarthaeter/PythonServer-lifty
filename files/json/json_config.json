@@ -1,0 +1,11 @@
+{
+  "db": {
+    "user": "",
+    "password": "",
+    "host": "",
+    "database": ""
+  },
+  "google": {
+    "API_KEY": ""
+  }
+}

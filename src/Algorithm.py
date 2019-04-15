@@ -134,7 +134,3 @@ def main(vehicle_data, location_data, distance_matrix):
 	# Print solution on console.
 	if assignment:
 		return print_solution(data, manager, routing, assignment)
-
-
-if __name__ == '__main__':
-	main()

@@ -28,6 +28,3 @@ def send_file(path):
 
     # close the connection
     s.close()
-
-if __name__ == '__main__':
-    Main()
