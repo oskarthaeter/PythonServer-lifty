@@ -24,7 +24,8 @@ def is_time_between(begin_time, end_time, check_time=None):
 
 
 
-# parameters:
+# parameters: day, schools
+# format:     str, list(int)
 def run_thread(day, schools):
 	for i in schools:
 		group = one.build_time_pool(day, i)
