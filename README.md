@@ -16,3 +16,4 @@ In order to use the code:
   - insert your databank login data into json_config.json
   - insert your Google Distance Matrix API-Key into json_config.json
   - populate your databank with userdata
+  - in Json.py replace the "/PyhtonServer/..." filepaths with the actual filepaths of the according files.
