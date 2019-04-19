@@ -43,7 +43,6 @@ def run_thread(day, schools):
 			temp1, temp2 = build_matrix(urls, routes, dropped_nodes, driver_indices, passenger_indices, drivers, passengers)
 			filepath = fill_data_matrix(i, day, y, temp1, temp2)
 			send_file(filepath)
-			one.close()
 
 
 def add_timezone(time, timezone):
