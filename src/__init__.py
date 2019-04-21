@@ -21,9 +21,6 @@ def is_time_between(begin_time, end_time, check_time=None):
 		return check_time >= begin_time or check_time <= end_time
 
 
-
-
-
 # parameters: day, schools
 # format:     str, list(int)
 def run_thread(day, schools):
@@ -50,9 +47,14 @@ def add_timezone(time, timezone):
 	if sum >= 24:
 		sum = sum - 24
 	elif sum < 0:
-		sum = 24 - sum
+		sum = 24 + sum
 	output_hours = (sum - (sum % 100)) / 100
 	output_minutes = sum % 100
+	if output_minutes >= 60:
+		output_minutes -= 60
+		output_hours += 1
+	if output_hours >= 24:
+		output_hours -= 24
 	return int(output_hours), int(output_minutes)
 
 
@@ -71,6 +73,7 @@ def main():
 		threads = []
 		timezones = one.build_timezone_pool()
 		already_run = False
+		print("here")
 		for t in timezones:
 			hours, minutes = add_timezone(2000, t)
 			if days[date.today().strftime("%A")] is not None and is_time_between(time(hours, minutes), time(hours, minutes + 2)) and already_run is False:
@@ -80,6 +83,7 @@ def main():
 				thread.start()
 				threads.append(thread)
 				already_run = True
+
 
 if __name__ == '__main__':
 	main()

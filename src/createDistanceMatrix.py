@@ -1,8 +1,7 @@
 from __future__ import division
 from __future__ import print_function
 import requests
-import json
-import urllib
+
 
 
 from src.Json import get_config_api_key
