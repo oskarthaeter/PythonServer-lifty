@@ -11,9 +11,6 @@ from ortools.constraint_solver import pywrapcp
 from ortools.constraint_solver import routing_enums_pb2
 
 
-###########################
-# Problem Data Definition #
-###########################
 def create_data_model(vehicle_data, location_data, distance_matrix):
 	"""Stores the data for the problem"""
 	data = {}
@@ -79,7 +76,6 @@ def print_solution(data, manager, routing, assignment):
 
 
 def main(vehicle_data, location_data, distance_matrix):
-	"""Solve the CVRP problem."""
 	# Instantiate the data problem.
 	data = create_data_model(vehicle_data, location_data, distance_matrix)
 
