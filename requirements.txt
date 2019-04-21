@@ -1,4 +1,4 @@
 requests==2.21.0
 six==1.4.1
 ortools==7.0.6546
-mysql.connector==2.1.6
+mysql.connector==2.2.9
