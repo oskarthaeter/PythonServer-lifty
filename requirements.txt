@@ -1,0 +1,3 @@
+six==1.4.1
+ortools==7.0.6546
+mysql.connector==2.1.6
