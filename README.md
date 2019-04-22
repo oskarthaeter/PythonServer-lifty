@@ -31,11 +31,8 @@ The project consists of two main parts:
 
 The frontend is the interface between user and program, i. e. it is optimized for the aspects of usability and design. 
 
-The backend is the heart of the program, i. e. it brings everything to life and must therefore be heavily tested on functionality and possible security risks.
-
-![Diagram](/Users/oskarhaeter/Downloads/Untitled Diagram.png)
-
-
+The backend is the heart of the program, i. e. it brings everything to life and must therefore be heavily tested on 
+functionality and possible security risks.
 
 # Structure of the frontend
 
