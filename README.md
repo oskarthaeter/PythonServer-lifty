@@ -33,10 +33,6 @@ The frontend is the interface between user and program, i. e. it is optimized fo
 
 The backend is the heart of the program, i. e. it brings everything to life and must therefore be heavily tested on functionality and possible security risks.
 
-![Diagram](/Users/oskarhaeter/Downloads/Untitled Diagram.png)
-
-
-
 # Structure of the frontend
 
 The frontend is divided into three parts:
