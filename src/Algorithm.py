@@ -115,9 +115,12 @@ def main(vehicle_data, location_data, distance_matrix):
 		True,  # start cumul to zero
 		'Capacity')
 	# Allow to drop nodes.
-	penalty = 10000000
+	penalty = 100000000000
+	# penalty must be larger than all distances of the distance_matrix added together minus the sum of the distances
+	# between the school(aka depot) and every node
 	for node in range(1, len(data['distance_matrix'])):
 		routing.AddDisjunction([manager.NodeToIndex(node)], penalty)
+	# note that no penalty is added to the depot(index=0)
 
 	# Setting first solution heuristic.
 	search_parameters = pywrapcp.DefaultRoutingSearchParameters()
