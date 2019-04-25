@@ -32,6 +32,7 @@ def construct_route_url(locations, routes_temp):
 			urls.append(url)
 	return urls
 
+
 # for testing purposes only
 if __name__ == '__main__':
 	one = SQLHandler()

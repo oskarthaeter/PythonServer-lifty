@@ -105,6 +105,7 @@ This task entails 4 subtasks:
 These subtasks are called in the main process: \__innit__
 
 ### \__innit__
+
 Part of the main process is always running per while True loop.
 In the above mentioned, the code checks what day it is and compares the current time with a deadline timetable which was previously
 fetched from the DB's school table. This deadline timetable consists of the different timezone differences compared to UTC time.
@@ -125,6 +126,7 @@ various data fetching tasks. But they all mostly follow the simple schema of:
     # to return the data in a desired fashion
 
 ### Algorithm	
+
 The Algorithm requires the parameters vehicle_data, locations_data and distance_matrix.
 With these values, a data model is created,
     
@@ -180,3 +182,63 @@ The return parameters are a list of list representing the routes and a list of d
     return routes, drop_nodes
 
 ### URL building
+
+The URLs must follow the [url-encoding rules](https://developers.google.com/maps/documentation/urls/url-encoding),
+i.e. must be properly escaped. This [guide](https://developers.google.com/maps/documentation/urls/guide) was used to
+properly construct the url building module. First, a list is initiated, in order to be able to append it later on.
+    
+    urls = []
+
+Then, the list of routes is looped through.
+
+    if routes_temp != None:
+		for i in routes_temp:
+        [...]
+    [...]
+
+Before anything else, the beginning of the URL is set, because it is always the same.
+
+    url = 'https://www.google.com/maps/dir/?api=1&origin='
+
+Then, the first and the last locations each get a pointer, 
+
+    x = i[0]
+	z = i[len(i) - 1]
+	
+this start pointer is then used to set the origin value of the url.
+
+    url += locations[x][0] + "+" + str(locations[x][1]) + "+" + locations[x][2] + "+" + locations[x][3] + "+" + locations[x][4] + "+" + locations[x][5]
+    
+It is then checked, if the current route has any waypoints in between origin and destination.
+
+    if len(i) > 2:
+        [...]
+
+If true, then a waypoint string is appended to the url. 
+
+    url += "&waypoints="
+
+Also, start and end of the route are deleted from the route, so only a list of the route's waypoints is left.
+
+    del i[0]
+	del i[len(i) - 1]
+
+Next, the waypoints are looped through.
+
+    for y in i:
+        url += locations[y][0] + "+" + str(locations[y][1]) + "+" + locations[y][2] + "+" + locations[y][3] + "+" + \
+						   locations[y][4] + "+" + locations[y][5] + "%7C"
+
+The last 3 characters are removed from the url string, else there would be one "%7C" to much.
+
+    url = url[:-3]
+    
+The destination is added to  the url string.
+
+    url += "&destination=" + locations[z][0] + "+" + str(locations[z][1]) + "+" + locations[z][2] + "+" + \
+				   locations[z][3] + "+" + locations[z][4] + "+" + locations[z][5]
+
+And finally the just build url is appended to the urls list and the urls list is returned at the very end.
+
+            urls.append(url)
+	return urls    
