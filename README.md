@@ -112,6 +112,8 @@ fetched from the DB's school table. This deadline timetable consists of the diff
 If the current time is within two minutes of one of the deadline times of the timetable,
 a new thread will be started running the 4 subtasks consecutively.
 
+<span style="color:blue">some *This is Blue italic.* text</span>
+
 
 ### Retrieving data
 
