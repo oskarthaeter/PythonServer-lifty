@@ -1,6 +1,6 @@
 # Import socket module
 import socket
-
+# todo: ftp client protocol
 
 def send_file(path):
 
