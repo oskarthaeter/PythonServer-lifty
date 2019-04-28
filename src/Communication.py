@@ -1,30 +1,19 @@
 # Import socket module
 import socket
-# todo: ftp client protocol
+from ftplib import FTP
 
-def send_file(path):
+# ftp client protocol upload
 
-	# local host IP '127.0.0.1'
-	host = 'localhost'
-
-	# Define the port on which you want to connect
+def ftp_upload(path, filename):
+	ftp = FTP()
+	host = 'ftp.debian.org'
 	port = 12345
+	ftp.connect(host, port)
+	"""
+	A function for uploading files to an FTP server
+	@param path: The path to the file to upload
+	"""
+	with open(path, 'rb') as fobj:
+		ftp.storbinary('STOR ' + filename, fobj, 1024)
 
-	# get socket
-	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-	# connect to server on local computer
-	s.connect((host, port))
-
-	# message you send to server
-	f = open(path, "rb")
-
-	# message sent to server
-	l = f.read(1024)
-	while (l):
-		s.send(l)
-		l = f.read(1024)
-	f.close()
-
-	# close the connection
-	s.close()
+	ftp.quit()

@@ -4,7 +4,7 @@ from datetime import datetime, time, date
 import threading
 
 from src import Algorithm, createDistanceMatrix
-from src.Communication import send_file
+from src.Communication import ftp_upload
 from src.Json import fill_data_matrix, build_matrix
 from src.SQLHandler import SQLHandler
 from src.url_constructer import construct_route_url
@@ -38,8 +38,8 @@ def run_thread(day, schools):
 			for u in urls:
 				print(u)
 			temp1, temp2 = build_matrix(urls, routes, dropped_nodes, driver_indices, passenger_indices, drivers, passengers)
-			filepath = fill_data_matrix(i, day, y, temp1, temp2)
-			send_file(filepath)
+			filepath, filename = fill_data_matrix(i, day, y, temp1, temp2)
+			ftp_upload(filepath, filename)
 
 
 def add_timezone(time, timezone):

@@ -53,7 +53,7 @@ def fill_data_matrix(school_id, day, timestamp, fill_data, dropped_nodes):
 	print(data)
 	with open('/PythonServer/files/json/data_{}_{}_{}.json'.format(school_id, day, timestamp), 'w', encoding='utf8') as outfile:
 		json.dump(data, outfile, ensure_ascii=False)
-	return '/PythonServer/files/json/data_{}_{}_{}.json'.format(school_id, day, timestamp)
+	return '/Users/oskarhaeter/PycharmProjects/PythonServer/files/json/data_{}_{}_{}.json'.format(school_id, day, timestamp), 'data_{}_{}_{}.json'.format(school_id, day, timestamp)
 
 
 # builds the actual matrix which has the following structure:
