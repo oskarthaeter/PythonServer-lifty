@@ -38,14 +38,14 @@ def fill_driver_data(user_id, url, passengers):
 def fill_passenger_data(user_id, day, time, driver_id):
 	from src import SQLHandler
 	one = SQLHandler()
-	data = load_json("/Users/oskarhaeter/PycharmProjects/PythonServer/files/json/json_form_passenger_data.json")
+	data = load_json("/PythonServer/files/json/json_form_passenger_data.json")
 	data["user_id"] = user_id
 	forename, name = one.driver_name(driver_id)
 	data["url"] = "You're to be picked up on {} at {} from {} {}".format(day, time, forename, name)
 	return data
 
 def fill_dropped_data(user_id):
-	data = load_json("/Users/oskarhaeter/PycharmProjects/PythonServer/files/json/json_form_passenger_data.json")
+	data = load_json("/PythonServer/files/json/json_form_passenger_data.json")
 	data["user_id"] = user_id
 	data["url"] = "Unfortunately we could not find anybody to pick you up."
 	return data
