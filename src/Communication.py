@@ -1,32 +1,14 @@
-# Import socket module
-import socket
-from ftplib import FTP
-
 # ftp client protocol upload
 import paramiko as paramiko
 
-
-def ftp_upload(path, filename):
-	ftp = FTP()
-	host = ''
-	port = 22
-	ftp.connect(host, port)
-	ftp.login("", "")
-	"""
-	A function for uploading files to an FTP server
-	@param path: The path to the file to upload
-	"""
-	with open(path, 'rb') as fobj:
-		ftp.storbinary('STOR ' + filename, fobj, 1024)
-
-	ftp.quit()
+from Json import get_config_sftp
 
 
 def sftp_upload(path, filename):
-	host = ''
+	host, username, password = get_config_sftp()
 	port = 22
 	transport = paramiko.Transport((host, port))
-	transport.connect(username="", password="")
+	transport.connect(username=username, password=password)
 	sftp = paramiko.SFTPClient.from_transport(transport)
 	sftp.put(path, filename)  # Upload file to root FTP folder
 	sftp.close()

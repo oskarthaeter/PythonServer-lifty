@@ -5,8 +5,8 @@ This task entails 4 subtasks:
 - retrieving data
 - running an algorithm on the data
 - building a url based on the algorithm’s results
-- storing the urls and affiliated drivers and passengers in a matrix
-- communicating said matrix to the PHP server
+- storing the urls and affiliated drivers and passengers in a list of json objects
+- communicating said list to the PHP server
 
 These subtasks are called in the main process: \__innit__
 
@@ -30,10 +30,10 @@ a new thread will be started running the 5 subtasks consecutively.
     urls = construct_route_url(locations, routes_temp)
     
     […]
-    temp1, temp2 = build_matrix(urls, routes, dropped_nodes, driver_indices, passenger_indices, drivers, passengers)
-    filepath = fill_data_matrix(i, day, y, temp1, temp2)
+	temp1, temp2 = build_list(urls, routes, dropped_nodes, driver_indices, passenger_indices, drivers, passengers, day, time)
+	filepath, filename = fill_data_matrix(school_id, day, time, temp1, temp2)
     
-    send_file(filepath)
+    sftp_upload(filepath, filename)
 
 
 ### Retrieving data
@@ -171,7 +171,7 @@ And finally the just build url is appended to the urls list and the urls list is
 The aforementioned urls need to be stored in an easily readable format,
 so later on the php server has no problem distributing the data to the users.
 This is achieved by using the .json format, which is easily readable for computers and humans.
-The data of one algorithm run is stored in a one matrix file.
+The data of one algorithm run is stored in a matrix file.
 
     {
     "type": "data_matrix",
@@ -182,21 +182,21 @@ The data of one algorithm run is stored in a one matrix file.
     "dropped_nodes": []
     }
     
-The actual Matrix is the "data" array. This array is filled with driver objects.
+The actual data is the "data" array. This array is filled with driver objects.
 
     {
     "user_id": "<user_id>",
-    "type": "driver",
-    "url": "<url>",
-    "passengers": []
+    "url": "<url>"
     }
 
-In these, the "passengers" array is then again filled with passenger objects.
+The array is also appended with passenger objects.
 
     {
-    "user_id": 0,
-    "type": "",
-    "user_id_driver": 0
+    "user_id": "<user_id>",
+    "url": "Sie werden am <> um <> von <> mitgenommen"
     }
 
-And in this way the data matrix provides the needed data in a usable, linked way.
+And in this way the data matrix provides the needed data in a usable way.
+
+### Communication
+

@@ -1,6 +1,5 @@
 import json
 
-# todo: change matrix to array of driver and passenger objects
 # handles json data
 
 # loads a json file and returns a data dict
@@ -11,8 +10,6 @@ def load_json(file_name):
 		data = json.load(read_file)
 	return data
 
-def import_function():
-	from src import SQLHandler
 
 # gets the login data for the mysql db from the json config file
 def get_config_db():
@@ -24,6 +21,11 @@ def get_config_db():
 def get_config_api_key():
 	data = load_json("/PythonServer/files/json/json_config.json")
 	return data["google"]["API_KEY"]
+
+
+def get_config_sftp():
+	data = load_json("/Users/oskarhaeter/PycharmProjects/PythonServer/files/json/json_config.json")
+	return data["sftp-server"]["host"], data["sftp-server"]["username"], data["sftp-server"]["password"]
 
 
 # fills the driver json file and returns a data dict
@@ -43,6 +45,7 @@ def fill_passenger_data(user_id, day, time, driver_id):
 	forename, name = one.driver_name(driver_id)
 	data["url"] = "You're to be picked up on {} at {} from {} {}".format(day, time, forename, name)
 	return data
+
 
 def fill_dropped_data(user_id):
 	data = load_json("/PythonServer/files/json/json_form_passenger_data.json")

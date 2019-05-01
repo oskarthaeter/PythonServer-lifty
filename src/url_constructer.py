@@ -1,7 +1,7 @@
 # class for building a url linking to a google maps route
 import copy
 
-from Communication import ftp_upload, sftp_upload
+from Communication import sftp_upload
 from src import Algorithm, createDistanceMatrix
 from src.Json import build_list, fill_data_matrix
 from src.SQLHandler import SQLHandler
