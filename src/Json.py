@@ -24,7 +24,7 @@ def get_config_api_key():
 
 
 def get_config_sftp():
-	data = load_json("/Users/oskarhaeter/PycharmProjects/PythonServer/files/json/json_config.json")
+	data = load_json("/PythonServer/files/json/json_config.json")
 	return data["sftp-server"]["host"], data["sftp-server"]["username"], data["sftp-server"]["password"]
 
 
