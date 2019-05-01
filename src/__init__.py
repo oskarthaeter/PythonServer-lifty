@@ -5,7 +5,7 @@ import threading
 
 from src import Algorithm, createDistanceMatrix
 from src.Communication import ftp_upload
-from src.Json import fill_data_matrix, build_matrix
+from src.Json import fill_data_matrix, build_list
 from src.SQLHandler import SQLHandler
 from src.url_constructer import construct_route_url
 

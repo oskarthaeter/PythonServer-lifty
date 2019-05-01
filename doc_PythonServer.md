@@ -17,18 +17,22 @@ In the above mentioned, the code checks what day it is and compares the current 
 which was previously fetched from the DB's school table.
 This deadline timetable consists of the different timezone differences
 compared to UTC time. If the current time is within two minutes of one of the deadline times of the timetable,
-a new thread will be started running the 4 subtasks consecutively.
+a new thread will be started running the 5 subtasks consecutively.
 
     locations = one.select_all_addresses(i, day, y)
     vehicle_data, location_data, driver_indices, passenger_indices, drivers,\ passengers = one.locations(i, day, y)
+    
     […]
     matrix = createDistanceMatrix.main(one.select_all_addresses(i, day, y))
     routes, dropped_nodes = Algorithm.main(vehicle_data, location_data, matrix)
+    
     routes_temp = copy.deepcopy(routes)
     urls = construct_route_url(locations, routes_temp)
+    
     […]
     temp1, temp2 = build_matrix(urls, routes, dropped_nodes, driver_indices, passenger_indices, drivers, passengers)
     filepath = fill_data_matrix(i, day, y, temp1, temp2)
+    
     send_file(filepath)
 
 

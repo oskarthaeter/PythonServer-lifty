@@ -1,6 +1,4 @@
 {
   "user_id": "<user_id>",
-  "type": "driver",
-  "url": "<url>",
-  "passengers": []
+  "url": "<url>"
 }

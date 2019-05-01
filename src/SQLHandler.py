@@ -136,6 +136,12 @@ class SQLHandler:
 	def get_user_indices(self, school_id, day, time):
 		return self.get_driver_indices(school_id, day, time), self.get_passenger_indices(school_id, day, time)
 
+	def driver_name(self, driver_id):
+		cursor = self.sql.cursor()
+		cursor.execute("SELECT forename, name FROM drivers WHERE id={}".format(driver_id))
+		result = cursor.fetchone()
+		return result[0], result[1]
+
 	# parameters school_id, day, time
 	# format     (int, "monday", "080000")
 	# returns vehicle_data(dict), location_data(dict), drivers relative indices(list(int)),

@@ -1,9 +1,9 @@
 # class for building a url linking to a google maps route
 import copy
 
-from Communication import ftp_upload
+from Communication import ftp_upload, sftp_upload
 from src import Algorithm, createDistanceMatrix
-from src.Json import build_matrix, fill_data_matrix
+from src.Json import build_list, fill_data_matrix
 from src.SQLHandler import SQLHandler
 
 
@@ -48,7 +48,7 @@ if __name__ == '__main__':
 	urls = construct_route_url(locations, routes_temp)
 	for u in urls:
 		print(u)
-	temp1, temp2 = build_matrix(urls, routes, dropped_nodes, driver_indices, passenger_indices, drivers, passengers)
+	temp1, temp2 = build_list(urls, routes, dropped_nodes, driver_indices, passenger_indices, drivers, passengers, day, time)
 	filepath, filename = fill_data_matrix(school_id, day, time, temp1, temp2)
 	one.close()
-	ftp_upload(filepath, filename)
+	sftp_upload(filepath, filename)

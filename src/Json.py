@@ -1,14 +1,18 @@
 import json
 
-
+# todo: change matrix to array of driver and passenger objects
 # handles json data
 
 # loads a json file and returns a data dict
+
+
 def load_json(file_name):
 	with open(file_name, "r") as read_file:
 		data = json.load(read_file)
 	return data
 
+def import_function():
+	from src import SQLHandler
 
 # gets the login data for the mysql db from the json config file
 def get_config_db():
@@ -26,18 +30,24 @@ def get_config_api_key():
 def fill_driver_data(user_id, url, passengers):
 	data = load_json("/PythonServer/files/json/json_form_driver_data.json")
 	data["user_id"] = user_id
-	data["type"] = "driver"
 	data["url"] = url
-	data["passengers"] = passengers
 	return data
 
 
 # fills the passenger json file and returns a data dict
-def fill_passenger_data(user_id, driver_id):
-	data = load_json("/PythonServer/files/json/json_form_passenger_data.json")
+def fill_passenger_data(user_id, day, time, driver_id):
+	from src import SQLHandler
+	one = SQLHandler()
+	data = load_json("/Users/oskarhaeter/PycharmProjects/PythonServer/files/json/json_form_passenger_data.json")
 	data["user_id"] = user_id
-	data["type"] = "passenger"
-	data["user_id_driver"] = driver_id
+	forename, name = one.driver_name(driver_id)
+	data["url"] = "You're to be picked up on {} at {} from {} {}".format(day, time, forename, name)
+	return data
+
+def fill_dropped_data(user_id):
+	data = load_json("/Users/oskarhaeter/PycharmProjects/PythonServer/files/json/json_form_passenger_data.json")
+	data["user_id"] = user_id
+	data["url"] = "Unfortunately we could not find anybody to pick you up."
 	return data
 
 
@@ -56,23 +66,20 @@ def fill_data_matrix(school_id, day, timestamp, fill_data, dropped_nodes):
 	return '/Users/oskarhaeter/PycharmProjects/PythonServer/files/json/data_{}_{}_{}.json'.format(school_id, day, timestamp), 'data_{}_{}_{}.json'.format(school_id, day, timestamp)
 
 
-# builds the actual matrix which has the following structure:
-# data->drivers->passengers
-# dropped_nodes->passengers
-def build_matrix(urls, routes, dropped_nodes, drivers, passengers, driver_indices, passenger_indices):
-	matrix = []
+def build_list(urls, routes, dropped_nodes, drivers, passengers, driver_indices, passenger_indices, day, time):
+	driver_list = []
+	passenger_list = []
 	for r in routes:
 		pointer = routes.index(r)
 		index = drivers.index(int(r[0]))
 		start = driver_indices[index]
-		passenger_pool = []
 		del r[0]
 		del r[len(r) - 1]
 		for o in r:
-			passenger_pool.append(fill_passenger_data(passenger_indices[passengers.index(o)], start))
-		matrix.append(fill_driver_data(start, urls[pointer], passenger_pool))
+			passenger_list.append(fill_passenger_data(passenger_indices[passengers.index(o)], day, time, start))
+		driver_list.append(fill_driver_data(start, urls[pointer]))
 	output_dropped_nodes = []
-	print(dropped_nodes)
 	for d in dropped_nodes:
-		output_dropped_nodes.append(passenger_indices[passengers.index(d)])
-	return matrix, output_dropped_nodes
+		output_dropped_nodes.append(fill_dropped_data(passenger_indices[passengers.index(d)]))
+	list = driver_list + passenger_list
+	return list, output_dropped_nodes

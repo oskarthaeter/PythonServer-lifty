@@ -3,6 +3,5 @@
     "day": "<day>",
     "school": "<school_id>",
     "timestamp": "<timestamp>",
-    "data": [],
-    "dropped_nodes": []
+    "data": []
 }
