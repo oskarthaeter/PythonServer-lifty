@@ -8,10 +8,10 @@ import paramiko as paramiko
 
 def ftp_upload(path, filename):
 	ftp = FTP()
-	host = 'liftyy.uber.space'
+	host = ''
 	port = 22
 	ftp.connect(host, port)
-	ftp.login("liftyy", "liftyyklsQ2pro")
+	ftp.login("", "")
 	"""
 	A function for uploading files to an FTP server
 	@param path: The path to the file to upload
@@ -23,10 +23,10 @@ def ftp_upload(path, filename):
 
 
 def sftp_upload(path, filename):
-	host = 'liftyy.uber.space'
+	host = ''
 	port = 22
 	transport = paramiko.Transport((host, port))
-	transport.connect(username="liftyy", password="liftyyklsQ2pro")
+	transport.connect(username="", password="")
 	sftp = paramiko.SFTPClient.from_transport(transport)
 	sftp.put(path, filename)  # Upload file to root FTP folder
 	sftp.close()
