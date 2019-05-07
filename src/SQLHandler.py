@@ -33,7 +33,7 @@ class SQLHandler:
 		capacities = []
 		cursor = self.sql.cursor()
 		cursor.execute(
-			"SELECT seats FROM drivers, users WHERE {}=\"{}\" AND school_id={} AND drivers.id=users.id AND users.status=1 GROUP BY drivers.id".format(
+			"SELECT seats FROM users, timetable WHERE {}=\"{}\" AND school_id={} AND users.id=timetable.id AND timetable.status=1 AND seats IS NOT NULL GROUP BY users.id".format(
 				day, str(time), school_id))
 		result = cursor.fetchall()
 		for i in result:
@@ -56,10 +56,10 @@ class SQLHandler:
 	# in the format: output = school address + drivers addresses + passengers address
 	def select_all_addresses(self, school_id, day, time):
 		passengers = self.select_all_locations(
-			"SELECT street, streetNumber, locality, region, zipcode, country FROM passengers, users WHERE {}=\"{}\" AND school_id={} AND passengers.id=users.id AND users.status=1 GROUP BY passengers.id".format(
+			"SELECT street, streetNumber, locality, region, zipcode, country FROM users, timetable WHERE {}=\"{}\" AND school_id={} AND users.id=timetable.id AND timetable.status=1 AND seats IS NULL GROUP BY users.id".format(
 				day, str(time), school_id))
 		drivers = self.select_all_locations(
-			"SELECT street, streetNumber, locality, region, zipcode, country FROM drivers, users WHERE {}=\"{}\" AND school_id={} AND drivers.id=users.id AND users.status=1 GROUP BY drivers.id".format(
+			"SELECT street, streetNumber, locality, region, zipcode, country FROM users, timetable WHERE {}=\"{}\" AND school_id={} AND users.id=timetable.id AND timetable.status=1 AND seats IS NOT NULL GROUP BY users.id".format(
 				day, str(time), school_id))
 		depot = self.select_all_locations(
 			"SELECT street, streetNumber, locality, region, zipcode, country FROM schools WHERE id={}".format(
@@ -73,7 +73,7 @@ class SQLHandler:
 	def build_time_pool(self, day, school_id):
 		pool = []
 		cursor = self.sql.cursor()
-		cursor.execute("SELECT DISTINCT {} FROM users WHERE school_id={}".format(day, school_id))
+		cursor.execute("SELECT DISTINCT {} FROM timetable, users WHERE users.school_id={} AND users.id=timetable.id GROUP BY users.id".format(day, school_id))
 		result = cursor.fetchall()
 		for x in result:
 			pool.append(str(x[0]))
@@ -109,7 +109,7 @@ class SQLHandler:
 		pool = []
 		cursor = self.sql.cursor()
 		cursor.execute(
-			"SELECT users.id FROM drivers, users WHERE {}=\"{}\" AND school_id={} AND drivers.id=users.id AND users.status=1 GROUP BY drivers.id".format(
+			"SELECT timetable.id FROM users, timetable WHERE {}=\"{}\" AND school_id={} AND users.id=timetable.id AND timetable.status=1 AND seats IS NOT NULL GROUP BY users.id".format(
 				day, str(time), school_id))
 		result = cursor.fetchall()
 		for x in result:
@@ -123,7 +123,7 @@ class SQLHandler:
 		pool = []
 		cursor = self.sql.cursor()
 		cursor.execute(
-			"SELECT users.id FROM passengers, users WHERE {}=\"{}\" AND school_id={} AND passengers.id=users.id AND users.status=1 GROUP BY passengers.id".format(
+			"SELECT timetable.id FROM users, timetable WHERE {}=\"{}\" AND school_id={} AND users.id=timetable.id AND timetable.status=1 AND seats IS NULL GROUP BY users.id".format(
 				day, str(time), school_id))
 		result = cursor.fetchall()
 		for x in result:
@@ -138,7 +138,7 @@ class SQLHandler:
 
 	def driver_name(self, driver_id):
 		cursor = self.sql.cursor()
-		cursor.execute("SELECT forename, name FROM drivers WHERE id={}".format(driver_id))
+		cursor.execute("SELECT forename, name FROM users WHERE id={} AND seats IS NOT NULL".format(driver_id))
 		result = cursor.fetchone()
 		return result[0], result[1]
 
@@ -151,10 +151,10 @@ class SQLHandler:
 			"SELECT street, streetNumber, locality, region, zipcode, country FROM schools WHERE id={}".format(
 				school_id))
 		drivers = self.select_all_locations(
-			"SELECT street, streetNumber, locality, region, zipcode, country FROM drivers, users WHERE {}=\"{}\" AND school_id={} AND drivers.id=users.id AND users.status=1 GROUP BY drivers.id".format(
+			"SELECT street, streetNumber, locality, region, zipcode, country FROM users, timetable WHERE {}=\"{}\" AND school_id={} AND users.id=timetable.id AND timetable.status=1 AND seats IS NOT NULL GROUP BY users.id".format(
 				day, str(time), school_id))
 		passengers = self.select_all_locations(
-			"SELECT street, streetNumber, locality, region, zipcode, country FROM passengers, users WHERE {}=\"{}\" AND school_id={} AND passengers.id=users.id AND users.status=1 GROUP BY passengers.id".format(
+			"SELECT street, streetNumber, locality, region, zipcode, country FROM users, timetable WHERE {}=\"{}\" AND school_id={} AND users.id=timetable.id AND timetable.status=1 AND seats IS NULL GROUP BY users.id".format(
 				day, str(time), school_id))
 		depot_index = []
 		drivers_indices = []
