@@ -171,32 +171,52 @@ And finally the just build url is appended to the urls list and the urls list is
 The aforementioned urls need to be stored in an easily readable format,
 so later on the php server has no problem distributing the data to the users.
 This is achieved by using the .json format, which is easily readable for computers and humans.
-The data of one algorithm run is stored in a matrix file.
+The data of one algorithm run is stored in a "matrix" file.
 
     {
     "type": "data_matrix",
     "day": "<day>",
     "school": "<school_id>",
     "timestamp": "<timestamp>",
-    "data": [],
-    "dropped_nodes": []
+    "data": []
     }
     
-The actual data is the "data" array. This array is filled with driver objects.
+The actual data is the "data" array. This array is filled with driver objects
 
     {
     "user_id": "<user_id>",
     "url": "<url>"
     }
 
-The array is also appended with passenger objects.
+and is also with passenger objects.
 
     {
     "user_id": "<user_id>",
-    "url": "Sie werden am <> um <> von <> mitgenommen"
+    "url": "On the <> at <> you will be picked up by <>"
     }
 
-And in this way the data matrix provides the needed data in a usable way.
+This way the data matrix provides the needed data in a usable way.
 
 ### Communication
 
+Finally, the file has to be transferred to the php server,
+which in turn will distribute the data to the user.
+The Communication module only needs the path and the name of the file to send.
+It uses the paramiko library, which provides a SFTP protocol.
+When called, it sets up the connection using host, username and password for the SFTP server.
+
+    def sftp_upload(path, filename):
+	    host, username, password = get_config_sftp()
+	    port = 22
+	    transport = paramiko.Transport((host, port))
+        transport.connect(username=username, password=password)
+
+It then sends the file using the protocol.
+
+    sftp = paramiko.SFTPClient.from_transport(transport)
+	sftp.put(path, filename)  # Upload file to root FTP folder
+	
+To clean up, the connection is then closed.
+
+    sftp.close()
+	transport.close()
