@@ -31,11 +31,11 @@ def get_config_sftp():
 
 # fills the driver json file and returns a data dict
 def fill_driver_data(user_id, url, duration, time):
-	data = load_json("/Users/oskarhaeter/PycharmProjects/PythonServer/files/json/json_form_driver_data.json")
+	data = load_json("/PythonServer/files/json/json_form_driver_data.json")
 	data["user_id"] = user_id
 	data["url"] = url
 	data["duration"] = duration
-	data["pick_up"] = new_time_string_for_time(subtract_time(datetime_for_time(time), duration+120).time())
+	data["pick_up"] = new_time_string_for_time(subtract_time(datetime_for_time(time), duration+300).time())
 	return data
 
 
@@ -47,7 +47,7 @@ def fill_passenger_data(user_id, day, time, driver_id):
 	data["user_id"] = user_id
 	forename, name = one.driver_name(driver_id)
 	data["url"] = "You're to be picked up on {} to arrive before {} at your school from {} {}. ".format(day, new_time_string_for_time(time), forename, name)
-	data["url"] += "You will be picked up at around {}".format(new_time_string_for_time(subtract_time(datetime_for_time(time), duration+120).time()))
+	data["url"] += "You will be picked up at around {}".format(new_time_string_for_time(subtract_time(datetime_for_time(time), duration+300).time()))
 	data["duration"] = duration
 	data["pick_up"] = new_time_string_for_time(subtract_time(datetime_for_time(time), duration + 300).time())
 	return data
@@ -70,9 +70,9 @@ def fill_data_matrix(school_id, day, timestamp, fill_data, dropped_nodes):
 	data["data"] = fill_data
 	data["dropped_nodes"] = dropped_nodes
 	print(data)
-	with open('/Users/oskarhaeter/PycharmProjects/PythonServer/files/json/data_{}_{}_{}.json'.format(school_id, day, new_time_string_for_time(timestamp)), 'w', encoding='utf8') as outfile:
+	with open('/PythonServer/files/json/data_{}_{}_{}.json'.format(school_id, day, new_time_string_for_time(timestamp)), 'w', encoding='utf8') as outfile:
 		json.dump(data, outfile, ensure_ascii=False)
-	return '/Users/oskarhaeter/PycharmProjects/PythonServer/files/json/data_{}_{}_{}.json'.format(school_id, day, new_time_string_for_time(timestamp)), 'data_{}_{}_{}.json'.format(school_id, day, new_time_string_for_time(timestamp))
+	return '/PythonServer/files/json/data_{}_{}_{}.json'.format(school_id, day, new_time_string_for_time(timestamp)), 'data_{}_{}_{}.json'.format(school_id, day, new_time_string_for_time(timestamp))
 
 
 def build_list(urls, routes, dropped_nodes, drivers, passengers, driver_indices, passenger_indices, day, time, durations):
