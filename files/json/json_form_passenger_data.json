@@ -1,4 +1,6 @@
 {
   "user_id": "<user_id>",
-  "url": "Sie werden am <> um <> von <> mitgenommen"
+  "url": "<message>",
+  "duration": "",
+  "pick_up": ""
 }

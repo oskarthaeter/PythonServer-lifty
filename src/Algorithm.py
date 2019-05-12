@@ -11,11 +11,12 @@ from ortools.constraint_solver import pywrapcp
 from ortools.constraint_solver import routing_enums_pb2
 
 
-def create_data_model(vehicle_data, location_data, distance_matrix):
+def create_data_model(vehicle_data, location_data, distance_matrix, time_matrix):
 	"""Stores the data for the problem"""
 	data = {}
 
 	data['distance_matrix'] = distance_matrix
+	data['time_matrix'] = time_matrix
 	data['demands'] = [0]
 	for i in range(1, (location_data['num'])):
 		data['demands'].append(1)
@@ -43,13 +44,17 @@ def print_solution(data, manager, routing, assignment):
 	print(dropped_nodes)
 	# Display routes
 	total_distance = 0
+	total_duration = 0
 	total_load = 0
 	routes = []
+	durations = []
 	for vehicle_id in range(data['num_vehicles']):
 		route = []
+		duration = []
 		index = routing.Start(vehicle_id)
 		plan_output = 'Route for vehicle {}:\n'.format(vehicle_id)
 		route_distance = 0
+		route_duration = 0
 		route_load = 0
 		while not routing.IsEnd(index):
 			node_index = manager.IndexToNode(index)
@@ -58,26 +63,36 @@ def print_solution(data, manager, routing, assignment):
 			route.append(manager.IndexToNode(index))
 			previous_index = index
 			index = assignment.Value(routing.NextVar(index))
+			route_duration += data['time_matrix'][manager.IndexToNode(previous_index)][manager.IndexToNode(index)]
+			duration.append(route_duration)
 			route_distance += routing.GetArcCostForVehicle(
 				previous_index, index, vehicle_id)
 		plan_output += ' {0} Load({1})\n'.format(
 			manager.IndexToNode(index), route_load)
 		route.append(manager.IndexToNode(index))
+		if route_distance == 0:
+			route_distance = data['distance_matrix'][manager.IndexToNode(routing.Start(vehicle_id))][0]
 		plan_output += 'Distance of the route: {}m\n'.format(route_distance)
 		plan_output += 'Load of the route: {}\n'.format(route_load)
+		plan_output += 'Duration of the route: {}\n'.format(duration)
+		plan_output += 'Total duration of the route: {}min \n'.format(route_duration / 60)
 		print(plan_output)
 		total_distance += route_distance
+		total_duration += route_duration
 		total_load += route_load
 		routes.append(route)
+		durations.append(duration)
 	print('Total Distance of all routes: {}m'.format(total_distance))
+	print('Total Duration of all routes: {}min'.format(total_duration/60))
 	print('Total Load of all routes: {}'.format(total_load))
 	print(routes)
-	return routes, drop_nodes
+	print(durations)
+	return routes, drop_nodes, durations
 
 
-def main(vehicle_data, location_data, distance_matrix):
+def main(vehicle_data, location_data, distance_matrix, time_matrix):
 	# Instantiate the data problem.
-	data = create_data_model(vehicle_data, location_data, distance_matrix)
+	data = create_data_model(vehicle_data, location_data, distance_matrix, time_matrix)
 
 	# Create the routing index manager.
 	manager = pywrapcp.RoutingIndexManager(

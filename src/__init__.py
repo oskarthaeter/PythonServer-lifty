@@ -1,8 +1,11 @@
 import copy
-from datetime import datetime, time, date
+import datetime
 
 import threading
+from time import sleep
 
+from Communication import sftp_upload
+from Time import add_timezone, time_in_range
 from src import Algorithm, createDistanceMatrix
 from src.Json import fill_data_matrix, build_list
 from src.SQLHandler import SQLHandler
@@ -30,31 +33,16 @@ def run_thread(day, schools):
 			vehicle_data, location_data, driver_indices, passenger_indices, drivers, passengers = one.locations(i, day, y)
 			# potential bug when requests to google distance matrix api are synchronized (DDoS attack)
 			# https://developers.google.com/maps/documentation/distance-matrix/web-service-best-practices#synchronized-requests
-			matrix = createDistanceMatrix.main(one.select_all_addresses(i, day, y))
-			routes, dropped_nodes = Algorithm.main(vehicle_data, location_data, matrix)
+			matrix, time_matrix = createDistanceMatrix.main(one.select_all_addresses(i, day, y))
+			routes, dropped_nodes, durations = Algorithm.main(vehicle_data, location_data, matrix, time_matrix)
 			routes_temp = copy.deepcopy(routes)
 			urls = construct_route_url(locations, routes_temp)
 			for u in urls:
 				print(u)
-			temp1, temp2 = build_matrix(urls, routes, dropped_nodes, driver_indices, passenger_indices, drivers, passengers)
+			temp1, temp2 = build_list(urls, routes, dropped_nodes, driver_indices, passenger_indices, drivers, passengers, day, y, durations)
 			filepath, filename = fill_data_matrix(i, day, y, temp1, temp2)
-			ftp_upload(filepath, filename)
-
-
-def add_timezone(time, timezone):
-	sum = time + timezone
-	if sum >= 24:
-		sum = sum - 24
-	elif sum < 0:
-		sum = 24 + sum
-	output_hours = (sum - (sum % 100)) / 100
-	output_minutes = sum % 100
-	if output_minutes >= 60:
-		output_minutes -= 60
-		output_hours += 1
-	if output_hours >= 24:
-		output_hours -= 24
-	return int(output_hours), int(output_minutes)
+			sftp_upload(filepath, filename)
+	sleep(120)
 
 
 def main():
@@ -67,6 +55,8 @@ def main():
 	days['Friday'] = None
 	days['Saturday'] = None
 
+	deadline = datetime.time(20, 0, 0)
+
 	while True:
 		one = SQLHandler()
 		threads = []
@@ -74,9 +64,10 @@ def main():
 		already_run = False
 		print("here")
 		for t in timezones:
-			hours, minutes = add_timezone(2000, t)
-			if days[date.today().strftime("%A")] is not None and is_time_between(time(hours, minutes), time(hours, minutes + 2)) and already_run is False:
-				day = days[date.today().strftime("%A")]
+			print(t)
+			time_in_timezone = add_timezone(deadline, t)
+			if days[datetime.date.today().strftime("%A")] is not None and time_in_range(deadline, datetime.time(20, 2, 0), time_in_timezone) and already_run is False:
+				day = days[datetime.date.today().strftime("%A")]
 				schools = one.build_school_pool(t)
 				thread = threading.Thread(target=run_thread, args=(day, schools))
 				thread.start()

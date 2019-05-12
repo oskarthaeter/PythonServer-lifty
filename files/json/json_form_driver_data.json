@@ -1,4 +1,6 @@
 {
   "user_id": "<user_id>",
-  "url": "<url>"
+  "url": "<url>",
+  "duration": "",
+  "pick_up": ""
 }

@@ -1,5 +1,6 @@
 # class for building a url linking to a google maps route
 import copy
+import datetime
 
 from Communication import sftp_upload
 from src import Algorithm, createDistanceMatrix
@@ -38,18 +39,16 @@ if __name__ == '__main__':
 	one = SQLHandler()
 	day = "monday"
 	school_id = 1
-	time = "080000"
+	time = datetime.time(8,00,00)
 	locations = one.select_all_addresses(school_id, day, time)
-	vehicle_data, location_data, driver_indices, passenger_indices, drivers, passengers = one.locations(school_id, day,
-																										time)
-	matrix = createDistanceMatrix.main(one.select_all_addresses(school_id, day, time))
-	routes, dropped_nodes = Algorithm.main(vehicle_data, location_data, matrix)
+	vehicle_data, location_data, driver_indices, passenger_indices, drivers, passengers = one.locations(school_id, day, time)
+	matrix, time_matrix = createDistanceMatrix.main(one.select_all_addresses(school_id, day, time))
+	routes, dropped_nodes, durations = Algorithm.main(vehicle_data, location_data, matrix, time_matrix)
 	routes_temp = copy.deepcopy(routes)
 	urls = construct_route_url(locations, routes_temp)
 	for u in urls:
 		print(u)
-	temp1, temp2 = build_list(urls, routes, dropped_nodes, driver_indices, passenger_indices, drivers, passengers, day,
-							  time)
+	temp1, temp2 = build_list(urls, routes, dropped_nodes, driver_indices, passenger_indices, drivers, passengers, day, time, durations)
 	filepath, filename = fill_data_matrix(school_id, day, time, temp1, temp2)
 	one.close()
-	# sftp_upload(filepath, filename)
+	sftp_upload(filepath, filename)
