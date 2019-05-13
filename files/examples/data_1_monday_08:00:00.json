@@ -1,0 +1,70 @@
+{
+  "type": "data_matrix",
+  "day": "monday",
+  "school": 1,
+  "timestamp": "08:00:00",
+  "data": [
+    {
+      "user_id": 1,
+      "url": "https://www.google.com/maps/dir/?api=1&origin=Schützallee+63+Berlin+Berlin+14169+Deutschland&waypoints=Lützelsteiner Weg+4+Berlin+Berlin+14195+Deutschland%7CVan't-Hoff-Straße+15+Berlin+Berlin+14195+Deutschland%7CBreisacher Str.+14+Berlin+Berlin+14195+Deutschland&destination=Podbielskiallee+78+Berlin+Berlin+14195+Deutschland",
+      "duration": 890,
+      "pick_up": "07:40:10"
+    }, {
+      "user_id": 2,
+      "url": "https://www.google.com/maps/dir/?api=1&origin=Holbeinstraße+51+Berlin+Berlin+12203+Deutschland&waypoints=Fabeckstraße+52+Berlin+Berlin+14195+Deutschland%7CGritznerstraße+71+Berlin+Berlin+12163+Deutschland&destination=Podbielskiallee+78+Berlin+Berlin+14195+Deutschland",
+      "duration": 647,
+      "pick_up": "07:44:13"
+    }, {
+      "user_id": 3,
+      "url": "https://www.google.com/maps/dir/?api=1&origin=Prinz-Friedrich-Leopold-Straße+45+Berlin+Berlin+14129+Deutschland&destination=Podbielskiallee+78+Berlin+Berlin+14195+Deutschland",
+      "duration": 1159,
+      "pick_up": "07:35:41"
+    }, {
+      "user_id": 4,
+      "url": "https://www.google.com/maps/dir/?api=1&origin=Machnower Str.+83+Berlin+Berlin+14165+Deutschland&waypoints=Forststraße+38+Berlin+Berlin+14163+Deutschland%7CJaehnstraße+7+Berlin+Berlin+14163+Deutschland%7CBachstelzenweg+17+Berlin+Berlin+14195+Deutschland&destination=Podbielskiallee+78+Berlin+Berlin+14195+Deutschland",
+      "duration": 1320,
+      "pick_up": "07:33:00"
+    }, {
+      "user_id": 6,
+      "url": "You're to be picked up on monday to arrive before 08:00:00 at your school from Oskar Thaeter. You will be picked up at around 07:42:50",
+      "duration": 160,
+      "pick_up": "07:42:50"
+    }, {
+      "user_id": 10,
+      "url": "You're to be picked up on monday to arrive before 08:00:00 at your school from Oskar Thaeter. You will be picked up at around 07:46:04",
+      "duration": 354,
+      "pick_up": "07:46:04"
+    }, {
+      "user_id": 5,
+      "url": "You're to be picked up on monday to arrive before 08:00:00 at your school from Oskar Thaeter. You will be picked up at around 07:48:51",
+      "duration": 521,
+      "pick_up": "07:48:51"
+    }, {
+      "user_id": 9,
+      "url": "You're to be picked up on monday to arrive before 08:00:00 at your school from Zwei Zweiger. You will be picked up at around 07:48:32",
+      "duration": 259,
+      "pick_up": "07:48:32"
+    }, {
+      "user_id": 12,
+      "url": "You're to be picked up on monday to arrive before 08:00:00 at your school from Zwei Zweiger. You will be picked up at around 07:52:33",
+      "duration": 500,
+      "pick_up": "07:52:33"
+    }, {
+      "user_id": 7,
+      "url": "You're to be picked up on monday to arrive before 08:00:00 at your school from Vier Vierger. You will be picked up at around 07:39:50",
+      "duration": 410,
+      "pick_up": "07:39:50"
+    }, {
+      "user_id": 8,
+      "url": "You're to be picked up on monday to arrive before 08:00:00 at your school from Vier Vierger. You will be picked up at around 07:40:54",
+      "duration": 474,
+      "pick_up": "07:40:54"
+    }, {
+      "user_id": 11,
+      "url": "You're to be picked up on monday to arrive before 08:00:00 at your school from Vier Vierger. You will be picked up at around 07:49:51",
+      "duration": 1011,
+      "pick_up": "07:49:51"
+    }
+  ],
+  "dropped_nodes": []
+}

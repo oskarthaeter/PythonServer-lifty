@@ -35,21 +35,21 @@ def fill_driver_data(user_id, url, duration, time):
 	data["user_id"] = user_id
 	data["url"] = url
 	data["duration"] = duration
-	data["pick_up"] = new_time_string_for_time(subtract_time(datetime_for_time(time), duration+120).time())
+	data["pick_up"] = new_time_string_for_time(subtract_time(datetime_for_time(time), duration+300).time())
 	return data
 
 
 # fills the passenger json file and returns a data dict
-def fill_passenger_data(user_id, day, time, driver_id):
+def fill_passenger_data(user_id, day, time, driver_id, duration, total_duration):
 	from src import SQLHandler
 	one = SQLHandler()
 	data = load_json("/PythonServer/files/json/json_form_passenger_data.json")
 	data["user_id"] = user_id
 	forename, name = one.driver_name(driver_id)
 	data["url"] = "You're to be picked up on {} to arrive before {} at your school from {} {}. ".format(day, new_time_string_for_time(time), forename, name)
-	data["url"] += "You will be picked up at around {}".format(new_time_string_for_time(subtract_time(datetime_for_time(time), duration+120).time()))
+	data["url"] += "You will be picked up at around {}".format(new_time_string_for_time(subtract_time(datetime_for_time(time), ((total_duration + 300) - duration)).time()))
 	data["duration"] = duration
-	data["pick_up"] = new_time_string_for_time(subtract_time(datetime_for_time(time), duration + 300).time())
+	data["pick_up"] = new_time_string_for_time(subtract_time(datetime_for_time(time), ((total_duration + 300) - duration)).time())
 	return data
 
 
@@ -86,7 +86,7 @@ def build_list(urls, routes, dropped_nodes, drivers, passengers, driver_indices,
 		del r[len(r) - 1]
 		for o in r:
 			passenger_pointer = r.index(o)
-			passenger_list.append(fill_passenger_data(passenger_indices[passengers.index(o)], day, time, start, durations[pointer][passenger_pointer]))
+			passenger_list.append(fill_passenger_data(passenger_indices[passengers.index(o)], day, time, start, durations[pointer][passenger_pointer], durations[pointer][len(durations[pointer])-1]))
 		driver_list.append(fill_driver_data(start, urls[pointer], durations[pointer][len(durations[pointer])-1], time))
 	output_dropped_nodes = []
 	for d in dropped_nodes:

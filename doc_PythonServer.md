@@ -17,21 +17,21 @@ In the above mentioned, the code checks what day it is and compares the current 
 which was previously fetched from the DB's school table.
 This deadline timetable consists of the different timezone differences
 compared to UTC time. If the current time is within two minutes of one of the deadline times of the timetable,
-a new thread will be started running the 5 subtasks consecutively.
+a new thread will be started running the 5 subtasks consecutively. After the thread is done, it will sleep for 120 seconds.
 
     locations = one.select_all_addresses(i, day, y)
-    vehicle_data, location_data, driver_indices, passenger_indices, drivers,\ passengers = one.locations(i, day, y)
+	vehicle_data, location_data, driver_indices, passenger_indices, drivers, passengers = one.locations(i, day, y)
     
     […]
-    matrix = createDistanceMatrix.main(one.select_all_addresses(i, day, y))
-    routes, dropped_nodes = Algorithm.main(vehicle_data, location_data, matrix)
+    matrix, time_matrix = createDistanceMatrix.main(one.select_all_addresses(i, day, y))
+	routes, dropped_nodes, durations = Algorithm.main(vehicle_data, location_data, matrix, time_matrix)
     
     routes_temp = copy.deepcopy(routes)
-    urls = construct_route_url(locations, routes_temp)
+	urls = construct_route_url(locations, routes_temp)
     
     […]
-	temp1, temp2 = build_list(urls, routes, dropped_nodes, driver_indices, passenger_indices, drivers, passengers, day, time)
-	filepath, filename = fill_data_matrix(school_id, day, time, temp1, temp2)
+	temp1, temp2 = build_list(urls, routes, dropped_nodes, driver_indices, passenger_indices, drivers, passengers, day, y, durations)
+	filepath, filename = fill_data_matrix(i, day, y, temp1, temp2)
     
     sftp_upload(filepath, filename)
 
@@ -53,7 +53,7 @@ various data fetching tasks. But they all mostly follow the simple schema of:
 The Algorithm requires the parameters vehicle_data, locations_data and distance_matrix.
 With these values, a data model is created,
     
-    def create_data_model(vehicle_data, location_data, distance_matrix):
+    def create_data_model(vehicle_data, location_data, distance_matrix, time_matrix):
     
 which in turn is used to create a routing model,
 
@@ -100,9 +100,10 @@ and finally the algorithm is run on the routing model using the aforementioned s
     # Solve the problem.
     assignment = routing.SolveWithParameters(search_parameters)
     
-The return parameters are a list of list representing the routes and a list of dropped nodes.
+The return parameters are a list of list representing the routes, a list of dropped nodes and a list of list of seconds 
+it will take to get to the school.
 
-    return routes, drop_nodes
+    return routes, drop_nodes, durations
 
 ### URL building
 
@@ -185,14 +186,18 @@ The actual data is the "data" array. This array is filled with driver objects
 
     {
     "user_id": "<user_id>",
-    "url": "<url>"
+    "url": "<url>",
+    "duration": "",
+    "pick_up": ""
     }
 
 and is also with passenger objects.
 
     {
     "user_id": "<user_id>",
-    "url": "On the <> at <> you will be picked up by <>"
+    "url": "<message>",
+    "duration": "",
+    "pick_up": ""
     }
 
 This way the data matrix provides the needed data in a usable way.
@@ -220,3 +225,30 @@ To clean up, the connection is then closed.
 
     sftp.close()
 	transport.close()
+	
+### Additional module: Time
+
+The Time module provides useful methods to handle the datetime and more often the datetime.time objects.
+    
+    def time_for_timedelta(time):
+        [...]
+        
+        
+    def datetime_for_time(time):
+        [...]
+        
+        
+    def subtract_time(time, seconds):
+        [...]
+    
+
+    def new_time_string_for_time(time):
+        [...]
+    
+
+    def time_in_range(start, end, x):
+        [...]
+        
+    
+    def add_timezone(time, timezone):
+        [..]
