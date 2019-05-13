@@ -1,0 +1,40 @@
+{
+  "type": "data_matrix",
+  "day": "monday",
+  "school": 2,
+  "timestamp": "09:00:00",
+  "data": [
+    {
+      "user_id": 13,
+      "url": "https://www.google.com/maps/dir/?api=1&origin=Calle Rodolfo Flores+176+Revolución+Chihuahua+31135+Mexiko&waypoints=Calle Ochoa+3902+Barrio de Londres+Chihuahua+31060+Mexiko&destination=Paseo Simon Bolivar+112+Bolívar+Chihuahua+31000+Mexiko",
+      "duration": 1714,
+      "pick_up": "08:26:26"
+    }, {
+      "user_id": 14,
+      "url": "https://www.google.com/maps/dir/?api=1&origin=Cesar A. Sandino+910+División del Nte. I Etapa+Chihuahua+31064+Mexiko&waypoints=Calle Octava+6805+Desarrollo Urbano+Chihuahua+31063+Mexiko%7CCalle Trigésimo Octavo+4403+Dale+Chihuahua+31050+Mexiko%7CCalle Mariano Jiménez+2011+Santa Rita+Chihuahua+31020+Mexiko&destination=Paseo Simon Bolivar+112+Bolívar+Chihuahua+31000+Mexiko",
+      "duration": 1398,
+      "pick_up": "08:31:42"
+    }, {
+      "user_id": 18,
+      "url": "You're to be picked up on monday to arrive before 09:00:00 at your school from trece Alli. You will be picked up at around 08:47:12",
+      "duration": 1246,
+      "pick_up": "08:47:12"
+    }, {
+      "user_id": 17,
+      "url": "You're to be picked up on monday to arrive before 09:00:00 at your school from catorce Lorenz. You will be picked up at around 08:39:28",
+      "duration": 466,
+      "pick_up": "08:39:28"
+    }, {
+      "user_id": 16,
+      "url": "You're to be picked up on monday to arrive before 09:00:00 at your school from catorce Lorenz. You will be picked up at around 08:45:34",
+      "duration": 832,
+      "pick_up": "08:45:34"
+    }, {
+      "user_id": 15,
+      "url": "You're to be picked up on monday to arrive before 09:00:00 at your school from catorce Lorenz. You will be picked up at around 08:50:58",
+      "duration": 1156,
+      "pick_up": "08:50:58"
+    }
+  ],
+  "dropped_nodes": []
+}
