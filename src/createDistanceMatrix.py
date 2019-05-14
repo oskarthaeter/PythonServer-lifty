@@ -2,13 +2,13 @@ from __future__ import division
 from __future__ import print_function
 import requests
 
-from src.Json import get_config_api_key
+import Json
 
 
 def create_data(locations):
 	"""Creates the data."""
 	data = {}
-	data['API_key'] = get_config_api_key()
+	data['API_key'] = Json.get_config_api_key()
 	string = ''
 	temp = []
 	for x in locations:

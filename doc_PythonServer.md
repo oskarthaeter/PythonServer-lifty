@@ -251,4 +251,4 @@ The Time module provides useful methods to handle the datetime and more often th
         
     
     def add_timezone(time, timezone):
-        [..]
+        [...]

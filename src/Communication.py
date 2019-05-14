@@ -1,11 +1,11 @@
 # ftp client protocol upload
 import paramiko as paramiko
 
-from Json import get_config_sftp
+import Json
 
 
 def sftp_upload(path, filename):
-	host, username, password = get_config_sftp()
+	host, username, password = Json.get_config_sftp()
 	port = 22
 	transport = paramiko.Transport((host, port))
 	transport.connect(username=username, password=password)

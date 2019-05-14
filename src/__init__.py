@@ -4,14 +4,14 @@ import datetime
 import threading
 from time import sleep
 
-from Communication import sftp_upload
-from Time import add_timezone, time_in_range
-from src import Algorithm, createDistanceMatrix
-from src.Json import fill_data_matrix, build_list
-from src.SQLHandler import SQLHandler
-from src.url_constructer import construct_route_url
+import Communication
+import Time
+import Algorithm, createDistanceMatrix
+import Json
+import SQLHandler
+import url_constructer
 
-one = SQLHandler()
+one = SQLHandler.SQLHandler()
 
 
 # parameters: day, schools
@@ -27,12 +27,12 @@ def run_thread(day, schools):
 			matrix, time_matrix = createDistanceMatrix.main(one.select_all_addresses(i, day, y))
 			routes, dropped_nodes, durations = Algorithm.main(vehicle_data, location_data, matrix, time_matrix)
 			routes_temp = copy.deepcopy(routes)
-			urls = construct_route_url(locations, routes_temp)
+			urls = url_constructer.construct_route_url(locations, routes_temp)
 			for u in urls:
 				print(u)
-			temp1, temp2 = build_list(urls, routes, dropped_nodes, driver_indices, passenger_indices, drivers, passengers, day, y, durations)
-			filepath, filename = fill_data_matrix(i, day, y, temp1, temp2)
-			sftp_upload(filepath, filename)
+			temp1, temp2 = Json.build_list(urls, routes, dropped_nodes, driver_indices, passenger_indices, drivers, passengers, day, y, durations)
+			filepath, filename = Json.fill_data_matrix(i, day, y, temp1, temp2)
+			Communication.sftp_upload(filepath, filename)
 	sleep(120)
 
 
@@ -56,8 +56,8 @@ def main():
 		print("here")
 		for t in timezones:
 			print(t)
-			time_in_timezone = add_timezone(deadline, t)
-			if days[datetime.date.today().strftime("%A")] is not None and time_in_range(deadline, datetime.time(20, 2, 0), time_in_timezone) and already_run is False:
+			time_in_timezone = Time.add_timezone(deadline, t)
+			if days[datetime.date.today().strftime("%A")] is not None and Time.time_in_range(deadline, datetime.time(20, 2, 0), time_in_timezone) and already_run is False:
 				day = days[datetime.date.today().strftime("%A")]
 				schools = one.build_school_pool(t)
 				thread = threading.Thread(target=run_thread, args=(day, schools))

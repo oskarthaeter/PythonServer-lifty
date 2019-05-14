@@ -1,13 +1,13 @@
 import mysql.connector as conn
 
 # class for handling various sql queries
-from Time import new_time_string_for_time, time_for_timedelta
-from src.Json import get_config_db
+import Time
+import Json
 
 
 class SQLHandler:
 	# gets sensitive login data from a json config file
-	user, password, host, database = get_config_db()
+	user, password, host, database = Json.get_config_db()
 	sql = None
 
 	# initiates the class by connecting to the db
@@ -35,7 +35,7 @@ class SQLHandler:
 		cursor = self.sql.cursor()
 		cursor.execute(
 			"SELECT seats FROM users, timetable WHERE {}=\"{}\" AND school_id={} AND users.id=timetable.id AND timetable.status=1 AND seats IS NOT NULL GROUP BY users.id".format(
-				day, new_time_string_for_time(time), school_id))
+				day, Time.new_time_string_for_time(time), school_id))
 		result = cursor.fetchall()
 		for i in result:
 			capacities.append(int(i[0]))
@@ -58,10 +58,10 @@ class SQLHandler:
 	def select_all_addresses(self, school_id, day, time):
 		passengers = self.select_all_locations(
 			"SELECT street, streetNumber, locality, region, zipcode, country FROM users, timetable WHERE {}=\"{}\" AND school_id={} AND users.id=timetable.id AND timetable.status=1 AND seats IS NULL GROUP BY users.id".format(
-				day, new_time_string_for_time(time), school_id))
+				day, Time.new_time_string_for_time(time), school_id))
 		drivers = self.select_all_locations(
 			"SELECT street, streetNumber, locality, region, zipcode, country FROM users, timetable WHERE {}=\"{}\" AND school_id={} AND users.id=timetable.id AND timetable.status=1 AND seats IS NOT NULL GROUP BY users.id".format(
-				day, new_time_string_for_time(time), school_id))
+				day, Time.new_time_string_for_time(time), school_id))
 		depot = self.select_all_locations(
 			"SELECT street, streetNumber, locality, region, zipcode, country FROM schools WHERE id={}".format(
 				school_id))
@@ -77,7 +77,7 @@ class SQLHandler:
 		cursor.execute("SELECT DISTINCT {} FROM timetable, users WHERE users.school_id={} AND users.id=timetable.id GROUP BY users.id".format(day, school_id))
 		result = cursor.fetchall()
 		for x in result:
-			pool.append(time_for_timedelta(x[0]))
+			pool.append(Time.time_for_timedelta(x[0]))
 		return pool
 
 	# parameters timezone
@@ -111,7 +111,7 @@ class SQLHandler:
 		cursor = self.sql.cursor()
 		cursor.execute(
 			"SELECT timetable.id FROM users, timetable WHERE {}=\"{}\" AND school_id={} AND users.id=timetable.id AND timetable.status=1 AND seats IS NOT NULL GROUP BY users.id".format(
-				day, new_time_string_for_time(time), school_id))
+				day, Time.new_time_string_for_time(time), school_id))
 		result = cursor.fetchall()
 		for x in result:
 			pool.append(int(x[0]))
@@ -125,7 +125,7 @@ class SQLHandler:
 		cursor = self.sql.cursor()
 		cursor.execute(
 			"SELECT timetable.id FROM users, timetable WHERE {}=\"{}\" AND school_id={} AND users.id=timetable.id AND timetable.status=1 AND seats IS NULL GROUP BY users.id".format(
-				day, new_time_string_for_time(time), school_id))
+				day, Time.new_time_string_for_time(time), school_id))
 		result = cursor.fetchall()
 		for x in result:
 			pool.append(int(x[0]))
@@ -153,10 +153,10 @@ class SQLHandler:
 				school_id))
 		drivers = self.select_all_locations(
 			"SELECT street, streetNumber, locality, region, zipcode, country FROM users, timetable WHERE {}=\"{}\" AND school_id={} AND users.id=timetable.id AND timetable.status=1 AND seats IS NOT NULL GROUP BY users.id".format(
-				day, new_time_string_for_time(time), school_id))
+				day, Time.new_time_string_for_time(time), school_id))
 		passengers = self.select_all_locations(
 			"SELECT street, streetNumber, locality, region, zipcode, country FROM users, timetable WHERE {}=\"{}\" AND school_id={} AND users.id=timetable.id AND timetable.status=1 AND seats IS NULL GROUP BY users.id".format(
-				day, new_time_string_for_time(time), school_id))
+				day, Time.new_time_string_for_time(time), school_id))
 		depot_index = []
 		drivers_indices = []
 		passengers_indices = []

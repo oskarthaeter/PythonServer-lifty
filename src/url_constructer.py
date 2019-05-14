@@ -2,10 +2,10 @@
 import copy
 import datetime
 
-from Communication import sftp_upload
-from src import Algorithm, createDistanceMatrix
-from src.Json import build_list, fill_data_matrix
-from src.SQLHandler import SQLHandler
+import Communication
+import Algorithm, createDistanceMatrix
+import Json
+import SQLHandler
 
 
 # urls constructed in accordance with:
@@ -36,7 +36,7 @@ def construct_route_url(locations, routes_temp):
 
 # for testing purposes only
 if __name__ == '__main__':
-	one = SQLHandler()
+	one = SQLHandler.SQLHandler()
 	day = "monday"
 	school_id = 1
 	time = datetime.time(8,00,00)
@@ -48,7 +48,7 @@ if __name__ == '__main__':
 	urls = construct_route_url(locations, routes_temp)
 	for u in urls:
 		print(u)
-	temp1, temp2 = build_list(urls, routes, dropped_nodes, driver_indices, passenger_indices, drivers, passengers, day, time, durations)
-	filepath, filename = fill_data_matrix(school_id, day, time, temp1, temp2)
+	temp1, temp2 = Json.build_list(urls, routes, dropped_nodes, driver_indices, passenger_indices, drivers, passengers, day, time, durations)
+	filepath, filename = Json.fill_data_matrix(school_id, day, time, temp1, temp2)
 	one.close()
-	sftp_upload(filepath, filename)
+	Communication.sftp_upload(filepath, filename)

@@ -6,9 +6,9 @@
    Distances are in meters.
 """
 
-from __future__ import print_function
-from ortools.constraint_solver import pywrapcp
-from ortools.constraint_solver import routing_enums_pb2
+import __future__
+import ortools.constraint_solver.pywrapcp
+import ortools.constraint_solver.routing_enums_pb2
 
 
 def create_data_model(vehicle_data, location_data, distance_matrix, time_matrix):
@@ -95,11 +95,11 @@ def main(vehicle_data, location_data, distance_matrix, time_matrix):
 	data = create_data_model(vehicle_data, location_data, distance_matrix, time_matrix)
 
 	# Create the routing index manager.
-	manager = pywrapcp.RoutingIndexManager(
+	manager = ortools.constraint_solver.pywrapcp.RoutingIndexManager(
 		len(data['distance_matrix']), data['num_vehicles'], data['starts'], data['ends'])
 
 	# Create Routing Model.
-	routing = pywrapcp.RoutingModel(manager)
+	routing = ortools.constraint_solver.pywrapcp.RoutingModel(manager)
 
 	# Create and register a transit callback.
 	def distance_callback(from_index, to_index):
@@ -138,9 +138,9 @@ def main(vehicle_data, location_data, distance_matrix, time_matrix):
 	# note that no penalty is added to the depot(index=0)
 
 	# Setting first solution heuristic.
-	search_parameters = pywrapcp.DefaultRoutingSearchParameters()
+	search_parameters = ortools.constraint_solver.pywrapcp.DefaultRoutingSearchParameters()
 	search_parameters.first_solution_strategy = (
-		routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
+		ortools.constraint_solver.routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
 
 	# Solve the problem.
 	assignment = routing.SolveWithParameters(search_parameters)
