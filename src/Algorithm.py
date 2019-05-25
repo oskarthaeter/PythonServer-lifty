@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """Capacitated Vehicle Routing Problem (CVRP).
    This is a sample using the routing library python wrapper to solve a CVRP
    problem.

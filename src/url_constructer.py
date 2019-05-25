@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # class for building a url linking to a google maps route
 import copy
 import datetime

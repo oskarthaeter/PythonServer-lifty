@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import json
 
 # handles json data
@@ -20,7 +22,7 @@ def get_config_db():
 
 # gets the api key for the google distance matrix api from the config json file
 def get_config_api_key():
-	data = load_json("/PythonServer/files/json/json_config.json")
+	data = load_json("/Users/oskarhaeter/PycharmProjects/PythonServer/files/json/json_config.json")
 	return data["google"]["API_KEY"]
 
 
