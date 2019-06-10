@@ -21,7 +21,7 @@ LOG_FORMAT = "%(name)2s %(levelname)2s %(asctime)2s - %(message)2s"
 logging.basicConfig(filename='PythonServer.log', level=logging.DEBUG, format=LOG_FORMAT, filemode='w')
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-handler = logging.handlers.SocketHandler(host="127.0.0.1", port=logging.handlers.DEFAULT_TCP_LOGGING_PORT)
+handler = logging.handlers.SocketHandler(host="", port=logging.handlers.DEFAULT_TCP_LOGGING_PORT)
 handler.setLevel(logging.DEBUG)
 logger.addHandler(handler)
 
