@@ -75,9 +75,9 @@ def fill_data_matrix(school_id, day, timestamp, fill_data, dropped_nodes):
 	data["timestamp"] = Time.new_time_string_for_time(timestamp)
 	data["data"] = fill_data
 	data["dropped_nodes"] = dropped_nodes
-	with open('/Users/oskarhaeter/PycharmProjects/PythonServer/files/output/data_{}_{}_{}.json'.format(school_id, day, Time.new_time_string_for_time(timestamp)), 'w', encoding='utf8') as outfile:
+	with open('/PythonServer/files/output/data_{}_{}_{}.json'.format(school_id, day, Time.new_time_string_for_time(timestamp)), 'w', encoding='utf8') as outfile:
 		json.dump(data, outfile, ensure_ascii=False)
-	return '/Users/oskarhaeter/PycharmProjects/PythonServer/files/output/data_{}_{}_{}.json'.format(school_id, day, Time.new_time_string_for_time(timestamp)), 'data_{}_{}_{}.json'.format(school_id, day, Time.new_time_string_for_time(timestamp))
+	return '/PythonServer/files/output/data_{}_{}_{}.json'.format(school_id, day, Time.new_time_string_for_time(timestamp)), 'data_{}_{}_{}.json'.format(school_id, day, Time.new_time_string_for_time(timestamp))
 
 
 def build_list(urls, routes, dropped_nodes, drivers, passengers, driver_indices, passenger_indices, day, time, durations):
