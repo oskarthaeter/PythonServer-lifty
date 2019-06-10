@@ -2,10 +2,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import division
 from __future__ import print_function
+
+import logging
+
 import requests
 
 import Json
 
+logger_3 = logging.getLogger('PythonServer.createDistanceMatrix')
 
 def create_data(locations):
 	"""Creates the data."""
@@ -72,7 +76,7 @@ def send_request(origin_addresses, dest_addresses, API_key):
 def build_distance_matrix(response):
 	distance_matrix = []
 	# print(response)
-	print(response['status'])
+	logger_3.info(response['status'])
 	for row in response['rows']:
 		row_list = [row['elements'][j]['distance']['value'] for j in range(len(row['elements']))]
 		distance_matrix.append(row_list)
@@ -81,7 +85,7 @@ def build_distance_matrix(response):
 def build_time_matrix(response):
 	time_matrix = []
 	# print(response)
-	print(response['status'])
+	logger_3.info(response['status'])
 	for row in response['rows']:
 		row_list_time = [row['elements'][j]['duration']['value'] for j in range(len(row['elements']))]
 		time_matrix.append(row_list_time)
@@ -91,6 +95,6 @@ def main(locations):
 	# Create the data.
 	data = create_data(locations)
 	distance_matrix, time_matrix = create_distance_matrix(data)
-	print(distance_matrix)
-	print(time_matrix)
+	logger_3.info(distance_matrix)
+	logger_3.info(time_matrix)
 	return distance_matrix, time_matrix

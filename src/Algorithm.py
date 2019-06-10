@@ -7,9 +7,12 @@
 """
 
 import __future__
+import logging
+
 import ortools.constraint_solver.pywrapcp
 import ortools.constraint_solver.routing_enums_pb2
 
+logger_2 = logging.getLogger('PythonServer.Algorithm')
 
 def create_data_model(vehicle_data, location_data, distance_matrix, time_matrix):
 	"""Stores the data for the problem"""
@@ -82,11 +85,11 @@ def print_solution(data, manager, routing, assignment):
 		total_load += route_load
 		routes.append(route)
 		durations.append(duration)
-	print('Total Distance of all routes: {}m'.format(total_distance))
-	print('Total Duration of all routes: {}min'.format(total_duration/60))
-	print('Total Load of all routes: {}'.format(total_load))
-	print(routes)
-	print(durations)
+	logger_2.info('Total Distance of all routes: {}m'.format(total_distance))
+	logger_2.info('Total Duration of all routes: {}min'.format(total_duration/60))
+	logger_2.info('Total Load of all routes: {}'.format(total_load))
+	logger_2.info(routes)
+	logger_2.info(durations)
 	return routes, drop_nodes, durations
 
 

@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import datetime
+import logging
+
+logger_6 = logging.getLogger('PythonServer.Time')
 
 
 def time_for_timedelta(time):

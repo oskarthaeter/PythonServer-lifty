@@ -5,7 +5,11 @@ import json
 # handles json data
 
 # loads a json file and returns a data dict
+import logging
+
 import Time
+
+logger_7 = logging.getLogger('PythonServer.Json')
 
 
 def load_json(file_name):
@@ -71,7 +75,7 @@ def fill_data_matrix(school_id, day, timestamp, fill_data, dropped_nodes):
 	data["timestamp"] = Time.new_time_string_for_time(timestamp)
 	data["data"] = fill_data
 	data["dropped_nodes"] = dropped_nodes
-	print(data)
+	logger_7.info(data)
 	with open('/Users/oskarhaeter/PycharmProjects/PythonServer/files/output/data_{}_{}_{}.json'.format(school_id, day, Time.new_time_string_for_time(timestamp)), 'w', encoding='utf8') as outfile:
 		json.dump(data, outfile, ensure_ascii=False)
 	return '/Users/oskarhaeter/PycharmProjects/PythonServer/files/output/data_{}_{}_{}.json'.format(school_id, day, Time.new_time_string_for_time(timestamp)), 'data_{}_{}_{}.json'.format(school_id, day, Time.new_time_string_for_time(timestamp))

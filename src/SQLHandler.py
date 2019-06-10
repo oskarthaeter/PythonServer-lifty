@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import logging
+
 import mysql.connector as conn
 
 # class for handling various sql queries
 import Time
 import Json
 
+logger_5 = logging.getLogger('PythonServer.SQLHandler')
 
 class SQLHandler:
 	# gets sensitive login data from a json config file
@@ -21,16 +24,16 @@ class SQLHandler:
 		try:
 			self.sql = conn.connection.MySQLConnection(user=self.user, password=self.password, host=self.host,
 													   database=self.database)
-			print("Connected successfully")
+			logger_5.info("Connected successfully")
 		except conn.Error:
-			print("Connection failed")
+			logger_5.info("Connection failed")
 
 	# prints the result of a select query
 	def select(self, query):
 		cursor = self.sql.cursor()
 		cursor.execute(query)
 		result = cursor.fetchall()
-		print(result)
+		logger_5.info(result)
 
 	def select_capacities(self, school_id, day, time):
 		capacities = []
@@ -167,11 +170,11 @@ class SQLHandler:
 			drivers_indices.append(x)
 		for z in range((len(drivers) + len(depot)), (len(passengers) + len(drivers) + len(depot))):
 			passengers_indices.append(z)
-		print(depot_index)
-		print(drivers_indices)
-		print(passengers_indices)
+		logger_5.info(depot_index)
+		logger_5.info(drivers_indices)
+		logger_5.info(passengers_indices)
 		locations_indices = depot_index + drivers_indices + passengers_indices
-		print(locations_indices)
+		logger_5.info(locations_indices)
 		location_data = {'num': len(locations_indices), 'starts': drivers_indices}
 		vehicle_data = {'num': len(drivers_indices), 'capacities': self.select_capacities(school_id, day, time)}
 		temp1, temp2 = self.get_user_indices(school_id, day, time)
