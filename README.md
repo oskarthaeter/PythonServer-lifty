@@ -17,6 +17,8 @@ In order to use the code:
   - create a database using the commands provided in SQL.sql
   - insert your database login data into json_config.json
   - insert your Google Distance Matrix API-Key into json_config.json
+  - insert your sftp server data into json_config.json
+  - insert the host, which will handle the logging, in __innit__.py
   - populate your database with userdata
   - in Json.py replace the "/PyhtonServer/..." filepaths with the actual filepaths of the according files.
 
@@ -33,41 +35,6 @@ The frontend is the interface between user and program, i. e. it is optimized fo
 
 The backend is the heart of the program, i. e. it brings everything to life and must therefore be heavily tested on 
 functionality and possible security risks.
-
-# Structure of the frontend
-
-The frontend is divided into three parts:
-- browser interface(Website)
-- Android interface(Java App)
-- iOS interface(Swift App)
-
-These three interfaces should follow relatively uniformly the given schema:
-
-Registration:
-
-The user has to register himself once in order to use the program.
-In this process the user must enter personal data(forename, name, address),
-contact data(tel, e-mail) and if they either are a parent(driver) or a child(passenger). The user also has to select a password.
-Also a table of the child’s timetable should be entered, so the program knows who needs to be at the school at a certain time.
-
-Login:
-
-The user has to login every time they want to use the service, provided they are already registered.
-In order to increase user-friendliness, an option for remembering login data should be made available.
-	
-Account management:
-
-This pane is supposed to give the user the ability to change certain attributes of their account data.
-Also an action for deleting the account should be provided.
-		
-Main page:
-
-On this page an interface should be displayed, which gives the option for deciding if the user(driver) will be able to drive
-the following day(yes/no) or if the user(passenger) wants to be picked up the next day(yes/no).
-Additionally: Statistical data showing driven kilometers, number of rides, CO2 in t saved, polar bears saved etc.
-Driver: A button needs to be displayed, which opens Google Maps with the route which needs to be driven. 
-Passenger: A timecode needs to be displayed, which represents the time the passenger needs to be outside 
-waiting to be picked up. Also the contact data of the driver needs to be displayed(tel).
 
 # Structure of the backend 
 
