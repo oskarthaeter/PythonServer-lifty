@@ -17,6 +17,7 @@ In order to use the code:
   - create a database using the commands provided in SQL.sql
   - insert your database login data into json_config.json
   - insert your Google Distance Matrix API-Key into json_config.json
+  - insert your sftp server data into json_config.json
   - insert the host, which will handle the logging, in __innit__.py
   - populate your database with userdata
   - in Json.py replace the "/PyhtonServer/..." filepaths with the actual filepaths of the according files.
