@@ -44,7 +44,7 @@ def print_solution(data, manager, routing, assignment):
 		if assignment.Value(routing.NextVar(node)) == node:
 			dropped_nodes += ' {}'.format(manager.IndexToNode(node))
 			drop_nodes.append(manager.IndexToNode(node))
-	print(dropped_nodes)
+	logger_2.info(dropped_nodes)
 	# Display routes
 	total_distance = 0
 	total_duration = 0
@@ -79,7 +79,7 @@ def print_solution(data, manager, routing, assignment):
 		plan_output += 'Load of the route: {}\n'.format(route_load)
 		plan_output += 'Duration of the route: {}\n'.format(duration)
 		plan_output += 'Total duration of the route: {}min \n'.format(route_duration / 60)
-		print(plan_output)
+		logger_2.info(plan_output)
 		total_distance += route_distance
 		total_duration += route_duration
 		total_load += route_load

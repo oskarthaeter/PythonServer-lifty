@@ -14,7 +14,7 @@ import SQLHandler
 
 
 LOG_FORMAT = "%(name)2s %(levelname)2s %(asctime)2s - %(message)2s"
-logging.basicConfig(filename='Transmitter.log', level=logging.DEBUG, format=LOG_FORMAT, filemode='w')
+logging.basicConfig(filename='PythonServer.log', level=logging.DEBUG, format=LOG_FORMAT, filemode='w')
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 handler = logging.handlers.SocketHandler(host="127.0.0.1", port=logging.handlers.DEFAULT_TCP_LOGGING_PORT)
@@ -61,8 +61,8 @@ if __name__ == '__main__':
 	routes_temp = copy.deepcopy(routes)
 	urls = construct_route_url(locations, routes_temp)
 	for u in urls:
-		logger_1.info(u)
+		print(u)
 	temp1, temp2 = Json.build_list(urls, routes, dropped_nodes, driver_indices, passenger_indices, drivers, passengers, day, time, durations)
 	filepath, filename = Json.fill_data_matrix(school_id, day, time, temp1, temp2)
 	one.close()
-	Communication.sftp_upload(filepath, filename)
+	# Communication.sftp_upload(filepath, filename)

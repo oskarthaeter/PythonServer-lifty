@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 import copy
 import datetime
+import logging
+import logging.handlers
 
 import threading
 from time import sleep
@@ -14,6 +16,14 @@ import SQLHandler
 import url_constructer
 
 one = SQLHandler.SQLHandler()
+
+LOG_FORMAT = "%(name)2s %(levelname)2s %(asctime)2s - %(message)2s"
+logging.basicConfig(filename='PythonServer.log', level=logging.DEBUG, format=LOG_FORMAT, filemode='w')
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
+handler = logging.handlers.SocketHandler(host="127.0.0.1", port=logging.handlers.DEFAULT_TCP_LOGGING_PORT)
+handler.setLevel(logging.DEBUG)
+logger.addHandler(handler)
 
 
 # parameters: day, schools
@@ -55,9 +65,9 @@ def main():
 		threads = []
 		timezones = one.build_timezone_pool()
 		already_run = False
-		print("here")
+		logger.debug("here")
 		for t in timezones:
-			print(t)
+			logger.info(t)
 			time_in_timezone = Time.add_timezone(deadline, t)
 			if days[datetime.date.today().strftime("%A")] is not None and Time.time_in_range(deadline, datetime.time(20, 2, 0), time_in_timezone) and already_run is False:
 				day = days[datetime.date.today().strftime("%A")]
