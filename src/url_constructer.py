@@ -65,4 +65,4 @@ if __name__ == '__main__':
 	temp1, temp2 = Json.build_list(urls, routes, dropped_nodes, driver_indices, passenger_indices, drivers, passengers, day, time, durations)
 	filepath, filename = Json.fill_data_matrix(school_id, day, time, temp1, temp2)
 	one.close()
-	# Communication.sftp_upload(filepath, filename)
+	Communication.sftp_upload(filepath, filename)
