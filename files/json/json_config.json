@@ -7,5 +7,10 @@
   },
   "google": {
     "API_KEY": ""
+  },
+  "sftp-server": {
+    "host": "",
+    "username": "",
+    "password": ""
   }
 }
